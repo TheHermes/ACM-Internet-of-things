@@ -27,6 +27,6 @@ var GoldoonSchema = mongoose.Schema({
 });
 
 
-var Goldoon = mongoose.model('Goldoon', GoldoonSchema);
+//var Goldoon = mongoose.model('Goldoon', GoldoonSchema);
 
-module.exports = Goldoon;
+module.exports = GoldoonSchema;
