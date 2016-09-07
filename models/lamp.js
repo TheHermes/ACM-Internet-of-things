@@ -4,11 +4,8 @@ var LampSchema = mongoose.Schema({
 	id: {
 		type: Number
 	},
-	last_on: {
-		type: Date
-	},
-	hours_on: {
-		type: Number
+	ip: {
+		type: String
 	},
 	events: [{
 		username: {
