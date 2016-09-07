@@ -8,6 +8,9 @@ var GoldoonSchema = mongoose.Schema({
     id: {
         type: Number
     },
+    ip : {
+        type: String
+    },
     humidity: {
         type: Number
     },
