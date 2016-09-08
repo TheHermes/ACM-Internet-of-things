@@ -61,23 +61,31 @@ String goldoon_get() {
         char *request = "GET /goldoon HTTP/1.1\n Host: 192.168.1.6\n Cache-Control: no-cache\n\n";
         client.print(request);
         char lastChar = 0;
+        int contentLength = 0;
         while (client.connected())
         {
             if (client.available())
             {
-                char c = client.read();
-                if(lastChar== '\n' && c == '\r') {
-                    Serial.println("Shame!!!!");
+                String str = client.readStringUntil('\n');
+                if(str.startsWith("Content-Length")) {
+                    contentLength = str.substring(16).toInt();
                 }
-                lastChar = c;
-                if(c == -1) {
+
+                if(str.startsWith("\r") && str.endsWith("\r")) {
                     break;
                 }
-                Serial.print(c);
-
             }
         }
+
+        String json = "";
+        for(int i = 0; i < contentLength; i++) {
+            json += (char) client.read();
+        }
+
+
         client.stop();
+
+        return json;
     }
 }
 
