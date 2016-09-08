@@ -1,5 +1,6 @@
 #include <ESP8266WiFi.h>
 
+
 const char* ssid = "IP-WDL-RT2T2R";
 const char* password = "Tabrizian1";
 
@@ -16,7 +17,6 @@ void initWiFi();
 void getBody(String response);
 String goldoon_get();
 
-
 // Arduino initial entry point #1
 void setup() {
     initSerial();
@@ -26,7 +26,9 @@ void setup() {
 
 // Arduino loop point
 void loop() {
-    goldoon_get();
+    String json = goldoon_get();
+    Serial.println(json);
+
     delay(5000);
 }
 
