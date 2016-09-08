@@ -1,4 +1,5 @@
 #include <ESP8266WiFi.h>
+#include <ArduinoJson.h>
 
 
 const char* ssid = "IP-WDL-RT2T2R";
@@ -17,6 +18,7 @@ void initWiFi();
 void getBody(String response);
 String goldoon_get();
 
+
 // Arduino initial entry point #1
 void setup() {
     initSerial();
@@ -26,8 +28,17 @@ void setup() {
 
 // Arduino loop point
 void loop() {
+    StaticJsonBuffer<2000> jsonBuffer;
     String json = goldoon_get();
     Serial.println(json);
+    JsonArray& root = jsonBuffer.parseArray(json.c_str());
+    if(!root.success()) {
+        Serial.println("Serial verfication failed");
+    }
+
+    JsonObject& field = root[0];
+    const char *id = field["_id"];
+    Serial.println(String("ID:::::::::") + id);
 
     delay(5000);
 }
