@@ -4,17 +4,19 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var GoldoonSchema = require('./models/goldoon');
 var restful = require('node-restful');
+
 
 var mongoose = restful.mongoose;
 mongoose.connect('mongodb://localhost/acm-iot');
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var doors = require('./routes/doors');
 
-var restful = require('node-restful');
 var mongoose = restful.mongoose;
 
 var app = express();
@@ -47,6 +49,9 @@ var PermissionsRecource = app.resouce = restful.model('permissions', permissions
     .methods(['get', 'put', 'delete', 'post']);
 PermissionsRecource.register(app, '/permissions');
 
+
+var Resource = app.resource = restful.model('Goldoon', GoldoonSchema).methods(['get', 'post', 'put', 'delete']);
+
 //question
 var question = require('./models/question');
 var resource = restful.model('question', question)
@@ -54,14 +59,14 @@ var resource = restful.model('question', question)
 resource.register(app, '/question');
 
 var poll = require('./routes/poll');
-app.use('/questions', poll)
+app.use('/questions', poll);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
-
 // error handlers
 
 // development error handler
