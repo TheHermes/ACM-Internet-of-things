@@ -2,5 +2,6 @@ languate: node_js
 node_js:
   - 0.8
   - 0.6
+before_script: sudo apt-get install mongo && mongod
 before_script: cd server && npm install && cd ..
 script: cd server && npm test
