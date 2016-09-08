@@ -10,7 +10,7 @@ var GoldoonSchema = mongoose.Schema({
     humidity: {
         type: Number
     },
-    must_humidity: {
+    least_humidity: {
         type: Number
     },
     frequency : {
