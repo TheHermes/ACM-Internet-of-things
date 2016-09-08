@@ -4,7 +4,7 @@ const char* ssid = "IP-WDL-RT2T2R";
 const char* password = "Tabrizian1";
 
 const char* serverAddress = "192.168.1.6";
-const char* baudRate = 115200;
+const int baudRate = 115200;
 const int port = 3000;
 
 void reportHumidity(double amount);
