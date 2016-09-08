@@ -12,7 +12,6 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json());
 app.use(bodyParser.json({type:'application/vnd.api+json'}));
-app.use(methodOverride());
 
 app.set('view engine', 'jade');
 app.use(bodyParser.json());
