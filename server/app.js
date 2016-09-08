@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var restful = require('node-restful');
 
 var mongoose = restful.mongoose;
-mongoose.connect('mongodb://localhost/doorDB');
+mongoose.connect('mongodb://localhost/acm-iot');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -19,7 +19,6 @@ var mongoose = restful.mongoose;
 
 var app = express();
 
-mongoose.connect('mongodb://localhost/acmiot');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -38,7 +37,7 @@ app.use('/doors-api', doors);
 
 //models
 var Door = require('./models/doors');
-var DoorsResource = app.resource = restful.model('doors', Door)
+var DoorsResource = app.resource = restful.model(Door.model_name, Door.schema)
     .methods(['get', 'put', 'delete', 'post']);
 DoorsResource.register(app, '/doors');
 
@@ -87,6 +86,5 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.listen(8080);
-
+app.listen(8080)
 module.exports = app;

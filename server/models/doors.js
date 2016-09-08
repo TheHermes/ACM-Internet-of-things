@@ -1,10 +1,20 @@
-/**
- * Created by ardavan on 07/09/16.
- */
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var doorSchema = new Schema({
-    ip : String,
-    id : Number
-});
-module.exports = doorSchema;
+var Door = function(){
+
+    var mongoose = require('mongoose');
+    var Schema = mongoose.Schema;
+    var schema = new Schema({
+        ip : String,
+        id : Number
+    });
+    var model_name = 'doors';
+    var _model = mongoose.model(model_name, schema);
+
+    return {
+        schema : schema,
+        model : _model,
+        model_name : model_name
+    }
+
+}();
+
+module.exports = Door;

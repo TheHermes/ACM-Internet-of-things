@@ -16,5 +16,14 @@
     "request": "^2.74.0",
     "node-restful": "^0.2.5",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "mocha": "^3.0.2",
+    "should": "^11.1.0",
+    "supertest": "^2.0.0"
+  },
+  "scripts": {
+    "test": "mocha ./test/*/*.js"
   }
 }
