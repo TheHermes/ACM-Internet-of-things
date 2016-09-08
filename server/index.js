@@ -1,6 +1,17 @@
-var gpio = require('rpi-gpio');
+var express = require('express');
+var bodyParser = require('body-parser');
+var GoldoonSchema = require('./models/goldoon');
+var restful = require('node-restful');
+var app = express();
 
-gpio.on('change', function(channel, value) {
-        console.log('Channel ' + channel + ' value is now ' + value);
-});
-gpio.setup(8, gpio.DIR_IN, gpio.EDGE_BOTH);
+var mongoose = restful.mongoose;
+mongoose.connect('mongodb://localhost/goldoon');
+
+app.set('view engine', 'jade');
+app.use(bodyParser.json());
+
+var goldoonResource = app.resource = restful.model('Goldoon', GoldoonSchema).
+    methods(['get', 'post', 'put', 'delete']);
+
+app.listen(3000);
+module.exports = app;
