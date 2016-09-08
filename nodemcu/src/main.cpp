@@ -1,5 +1,4 @@
 #include <ESP8266WiFi.h>
-#include <string>
 
 const char* ssid = "IP-WDL-RT2T2R";
 const char* password = "Tabrizian1";
@@ -17,18 +16,8 @@ void initWiFi();
 
 // Arduino initial entry point #1
 void setup() {
-    Serial.begin(baudRate);
-    Serial.println();
-
-    // WiFi Connection Initiation
-    Serial.printf("Connecting to %s ", ssid);
-    WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED)
-    {
-        delay(500);
-        Serial.print(".");
-    }
-    Serial.println(" connected");
+    initSerial();
+    initWiFi();
 
     // Get config of the Goldoon
     // TODO
@@ -72,9 +61,21 @@ void loop() {
 }
 
 void initSerial() {
+    Serial.begin(baudRate);
+    Serial.println();
 }
 
 void initWiFi() {
+    // WiFi Connection Initiation
+    Serial.printf("Connecting to %s ", ssid);
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println(" connected");
+
 }
 
 void goldoon_create() {
