@@ -7,7 +7,6 @@ const char* serverAddress = "192.168.1.6";
 const int baudRate = 115200;
 const int port = 3000;
 
-WiFiClient client;
 
 void reportHumidity(double amount);
 bool goldoon_exists();
@@ -27,26 +26,8 @@ void setup() {
 
 // Arduino loop point
 void loop() {
-    //double humidity = analogRead(A0);
-    //Serial.println((humidity));
-
-    //  while (client.connected())
-    //  {
-    //    if (client.available())
-    //    {
-    //      String line = client.readStringUntil('\n');
-    //      Serial.println(line);
-    //    }
-    //  }
-    //  client.stop();
-    //  Serial.println("\n[Disconnected]");
-    //}
-    //else
-    //{
-    //  Serial.println("connection failed!]");
-    //  client.stop();
-    //}
-    //delay(1000);
+    goldoon_get();
+    delay(5000);
 }
 
 void initSerial() {
@@ -74,15 +55,26 @@ bool goldoon_exists() {
 }
 
 String goldoon_get() {
-    if(connect.client(host, port)) {
+    WiFiClient client;
+
+    if(client.connect(serverAddress, port)) {
         char *request = "GET /goldoon HTTP/1.1\n Host: 192.168.1.6\n Cache-Control: no-cache\n\n";
         client.print(request);
+        char lastChar = 0;
         while (client.connected())
         {
             if (client.available())
             {
-                String line = client.readStringUntil('\n');
-                Serial.println(line);
+                char c = client.read();
+                if(lastChar== '\n' && c == '\r') {
+                    Serial.println("Shame!!!!");
+                }
+                lastChar = c;
+                if(c == -1) {
+                    break;
+                }
+                Serial.print(c);
+
             }
         }
         client.stop();
