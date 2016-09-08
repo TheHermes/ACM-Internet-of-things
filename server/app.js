@@ -4,13 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var GoldoonSchema = require('../models/goldoon')
+var GoldoonSchema = require('./models/goldoon');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
+var restful = require('node-restful');
+var mongoose = restful.mongoose;
 var app = express();
 
+mongoose.connect('mongodb://localhost/acmiot');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -26,7 +28,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
+
 var Resource = app.resource = restful.model('Goldoon', GoldoonSchema).methods(['get', 'post', 'put', 'delete']);
+
+//question
+var question = require('./models/question');
+var resource = restful.model('question', question)
+	.methods(['get', 'put', 'post', 'delete']);
+resource.register(app, '/question');
+
+var poll = require('./routes/poll');
+app.use('/questions', poll);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -56,6 +69,6 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
+app.listen(8080);
 
 module.exports = app;
