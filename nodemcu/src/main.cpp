@@ -15,13 +15,13 @@ void goldoon_create();
 void initSerial();
 void initWiFi();
 void getBody(String response);
+String goldoon_get();
 
 
 // Arduino initial entry point #1
 void setup() {
     initSerial();
     initWiFi();
-    String response = "";
 }
 
 
@@ -30,17 +30,6 @@ void loop() {
     //double humidity = analogRead(A0);
     //Serial.println((humidity));
 
-    //Serial.printf("\n[Connecting to %s ... ", host);
-    //if (client.connect(host, 3000))
-    //{
-    //  Serial.println("connected]");
-
-    //  Serial.println("[Sending a request]");
-    //  char *request = "GET /goldoon HTTP/1.1\n Host: 192.168.1.6\n Cache-Control: no-cache\n\n";
-    //  Serial.println(request);
-    //  client.print(request);
-
-    //  Serial.println("[Response:]");
     //  while (client.connected())
     //  {
     //    if (client.available())
@@ -82,6 +71,22 @@ void goldoon_create() {
 }
 
 bool goldoon_exists() {
+}
+
+String goldoon_get() {
+    if(connect.client(host, port)) {
+        char *request = "GET /goldoon HTTP/1.1\n Host: 192.168.1.6\n Cache-Control: no-cache\n\n";
+        client.print(request);
+        while (client.connected())
+        {
+            if (client.available())
+            {
+                String line = client.readStringUntil('\n');
+                Serial.println(line);
+            }
+        }
+        client.stop();
+    }
 }
 
 void getBody(String response) {
