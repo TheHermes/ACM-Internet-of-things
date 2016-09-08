@@ -5,15 +5,19 @@ const char* ssid = "IP-WDL-RT2T2R";
 const char* password = "Tabrizian1";
 
 const char* serverAddress = "192.168.1.6";
+const char* baudRate = 115200;
 const int port = 3000;
 
 void reportHumidity(double amount);
 bool goldoon_exists();
 void goldoon_create();
+void initSerial();
+void initWiFi();
 
 
+// Arduino initial entry point #1
 void setup() {
-    Serial.begin(115200);
+    Serial.begin(baudRate);
     Serial.println();
 
     // WiFi Connection Initiation
@@ -28,12 +32,10 @@ void setup() {
 
     // Get config of the Goldoon
     // TODO
-
-
-
 }
 
 
+// Arduino loop point
 void loop() {
     double humidity = analogRead(A0);
     Serial.println((humidity));
@@ -67,6 +69,12 @@ void loop() {
     //  client.stop();
     //}
     //delay(1000);
+}
+
+void initSerial() {
+}
+
+void initWiFi() {
 }
 
 void goldoon_create() {
