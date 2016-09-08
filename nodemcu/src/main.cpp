@@ -1,6 +1,4 @@
 #include <ESP8266WiFi.h>
-#include "RestClient.h"
-
 
 const char* ssid = "IP-WDL-RT2T2R";
 const char* password = "Tabrizian1";
@@ -9,27 +7,28 @@ const char* serverAddress = "192.168.1.6";
 const int baudRate = 115200;
 const int port = 3000;
 
-RestClient client = RestClient(serverAddress);
+WiFiClient client;
 
 void reportHumidity(double amount);
 bool goldoon_exists();
 void goldoon_create();
 void initSerial();
 void initWiFi();
+void getBody(String response);
 
 
 // Arduino initial entry point #1
 void setup() {
     initSerial();
     initWiFi();
+    String response = "";
 }
 
 
 // Arduino loop point
 void loop() {
-    double humidity = analogRead(A0);
-    Serial.println((humidity));
-    //WiFiClient client;
+    //double humidity = analogRead(A0);
+    //Serial.println((humidity));
 
     //Serial.printf("\n[Connecting to %s ... ", host);
     //if (client.connect(host, 3000))
@@ -83,4 +82,16 @@ void goldoon_create() {
 }
 
 bool goldoon_exists() {
+}
+
+void getBody(String response) {
+    //  while (client.connected())
+    //  {
+    //    if (client.available())
+    //    {
+    //      String line = client.readStringUntil('\n');
+    //      Serial.println(line);
+    //    }
+    //  }
+    //  client.stop();
 }
