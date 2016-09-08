@@ -8,9 +8,10 @@ var GoldoonSchema = require('../models/goldoon')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
+var restful = require('node-restful');
+var mongoose = require('mongoose');
 var app = express();
-
+mongoose.connect('mongodb://localhost/acmiot')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -27,6 +28,14 @@ app.use('/', routes);
 app.use('/users', users);
 
 var Resource = app.resource = restful.model('Goldoon', GoldoonSchema).methods(['get', 'post', 'put', 'delete']);
+Resource.after('put', function (req, res) {
+
+  if(req.body.humidity < req.body.least_humidity) {
+    console.log("Goldoon is dry");
+  }
+  res.send("OK!");
+});
+Resource.register(app, '/vase');
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -46,7 +55,6 @@ if (app.get('env') === 'development') {
     });
   });
 }
-
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
@@ -57,5 +65,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
+//app.listen(3000);
 
 module.exports = app;
+
