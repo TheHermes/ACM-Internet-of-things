@@ -5,11 +5,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var GoldoonSchema = require('./models/goldoon');
+var restful = require('node-restful');
+
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var restful = require('node-restful');
+
+var doors = require('./routes/doors');
+
 var mongoose = restful.mongoose;
+
 var app = express();
 
 mongoose.connect('mongodb://localhost/acmiot');
@@ -27,6 +33,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/doors-api', doors);
+
+//models
+var Door = require('./models/doors');
+var DoorsResource = app.resource = restful.model('doors', Door)
+    .methods(['get', 'put', 'delete', 'post']);
+DoorsResource.register(app, '/doors');
+
+
+var permissions = require('./models/permissions');
+var PermissionsRecource = app.resouce = restful.model('permissions', permissions)
+    .methods(['get', 'put', 'delete', 'post']);
+PermissionsRecource.register(app, '/permissions');
 
 
 var Resource = app.resource = restful.model('Goldoon', GoldoonSchema).methods(['get', 'post', 'put', 'delete']);
@@ -69,6 +88,7 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
 app.listen(8080);
 
 module.exports = app;
