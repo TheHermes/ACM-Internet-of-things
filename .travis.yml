@@ -1,0 +1,5 @@
+languate: node_js
+node_js:
+  - 0.8
+  - 0.6
+script: cd server && npm test
