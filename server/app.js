@@ -4,11 +4,19 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var restful = require('node-restful');
+
+var mongoose = restful.mongoose;
+mongoose.connect('mongodb://localhost/doorDB');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+
+var doors = require('./routes/doors');
+
 var restful = require('node-restful');
 var mongoose = restful.mongoose;
+
 var app = express();
 
 mongoose.connect('mongodb://localhost/acmiot');
@@ -26,6 +34,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/doors-api', doors);
+
+//models
+var Door = require('./models/doors');
+var DoorsResource = app.resource = restful.model('doors', Door)
+    .methods(['get', 'put', 'delete', 'post']);
+DoorsResource.register(app, '/doors');
+
+
+var permissions = require('./models/permissions');
+var PermissionsRecource = app.resouce = restful.model('permissions', permissions)
+    .methods(['get', 'put', 'delete', 'post']);
+PermissionsRecource.register(app, '/permissions');
 
 //question
 var question = require('./models/question');
@@ -65,6 +86,7 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
 app.listen(8080);
 
 module.exports = app;
