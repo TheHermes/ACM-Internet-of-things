@@ -1,4 +1,5 @@
 #include <ESP8266WiFi.h>
+#include <cstring>
 #include <ArduinoJson.h>
 
 
@@ -8,6 +9,7 @@ const char* password = "Tabrizian1";
 const char* serverAddress = "192.168.1.6";
 const int baudRate = 115200;
 const int port = 3000;
+const IPAddress ipAddress;
 
 
 void reportHumidity(double amount);
@@ -15,20 +17,18 @@ bool goldoon_exists();
 void goldoon_create();
 void initSerial();
 void initWiFi();
-void getBody(String response);
+String getBody(String response);
 String goldoon_get();
+const char *id;
 
 
 // Arduino initial entry point #1
 void setup() {
     initSerial();
     initWiFi();
-}
 
-
-// Arduino loop point
-void loop() {
-    StaticJsonBuffer<2000> jsonBuffer;
+    IPAddress ip = WiFi.localIP();
+    StaticJsonBuffer<1000> jsonBuffer;
     String json = goldoon_get();
     Serial.println(json);
     JsonArray& root = jsonBuffer.parseArray(json.c_str());
@@ -36,14 +36,28 @@ void loop() {
     if(!root.success()) {
         Serial.println("JSON parsing failed");
     }
+
+    bool exists = false;
     for (JsonArray::iterator it=root.begin(); it!=root.end(); ++it)
     {
-        Serial.println(it->asObject()["_id"].as<char *>());
+        if(strcmp(it->asObject()["ip"].as<char *>(), ip.toString().c_str()) == 0) {
+            Serial.println("IP exists in database.");
+            exists = true;
+            id = it->asObject()["_id"].as<char *>();
+            break;
+        }
     }
 
-    JsonObject& field = root[0];
-    const char *id = field["_id"];
-    Serial.println(String("ID:::::::::") + id);
+    if(!exists) {
+        goldoon_create();
+    }
+
+}
+
+
+// Arduino loop point
+void loop() {
+
 
     delay(5000);
 }
@@ -67,19 +81,28 @@ void initWiFi() {
 }
 
 void goldoon_create() {
+    String request = String("POST /goldoon HTTP/1.1\n") +
+        "Host:" + serverAddress + "\nCache-Control: no-cache\n" +
+        "Content-Type: application/x-www-form-urlencoded\n" +
+        "ip=192.168.1.9";
+
+    getBody(request);
 }
 
 bool goldoon_exists() {
 }
 
 String goldoon_get() {
-    WiFiClient client;
+    String request = String("GET /goldoon HTTP/1.1\n ") +
+        "Host: " + serverAddress + "\n Cache-Control: no-cache\n\n";
+    return getBody(request);
+}
 
+String getBody(String request) {
+    WiFiClient client;
     if(client.connect(serverAddress, port)) {
-        String request = String("GET /goldoon HTTP/1.1\n ") +
-            "Host: " + serverAddress + "\n Cache-Control: no-cache\n\n";
+        Serial.println(request);
         client.print(request);
-        char lastChar = 0;
         int contentLength = 0;
         while (client.connected())
         {
@@ -103,19 +126,6 @@ String goldoon_get() {
 
 
         client.stop();
-
         return json;
     }
-}
-
-void getBody(String response) {
-    //  while (client.connected())
-    //  {
-    //    if (client.available())
-    //    {
-    //      String line = client.readStringUntil('\n');
-    //      Serial.println(line);
-    //    }
-    //  }
-    //  client.stop();
 }
