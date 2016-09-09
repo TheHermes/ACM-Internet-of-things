@@ -30,7 +30,6 @@ void setup() {
     IPAddress ip = WiFi.localIP();
     StaticJsonBuffer<1000> jsonBuffer;
     String json = goldoon_get();
-    Serial.println(json);
     JsonArray& root = jsonBuffer.parseArray(json.c_str());
 
     if(!root.success()) {
@@ -57,8 +56,6 @@ void setup() {
 
 // Arduino loop point
 void loop() {
-
-
     delay(5000);
 }
 
@@ -81,10 +78,10 @@ void initWiFi() {
 }
 
 void goldoon_create() {
-    String request = String("POST /goldoon HTTP/1.1\n") +
-        "Host:" + serverAddress + "\nCache-Control: no-cache\n" +
-        "Content-Type: application/x-www-form-urlencoded\n" +
-        "ip=192.168.1.9\n\n";
+    String request = String("POST /goldoon HTTP/1.1\n") + "HOST: " + serverAddress +
+        "content-type: application/x-www-form-urlencoded\n" +
+        "content-length: 14\n\n" +
+        "ip=192.168.1.9\n";
 
     getBody(request);
 }
@@ -101,7 +98,6 @@ String goldoon_get() {
 String getBody(String request) {
     WiFiClient client;
     if(client.connect(serverAddress, port)) {
-        Serial.println(request);
         client.print(request);
         int contentLength = 0;
         while (client.connected())
