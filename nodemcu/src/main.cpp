@@ -32,8 +32,13 @@ void loop() {
     String json = goldoon_get();
     Serial.println(json);
     JsonArray& root = jsonBuffer.parseArray(json.c_str());
+
     if(!root.success()) {
-        Serial.println("Serial verfication failed");
+        Serial.println("JSON parsing failed");
+    }
+    for (JsonArray::iterator it=root.begin(); it!=root.end(); ++it)
+    {
+        Serial.println(it->asObject()["_id"].as<char *>());
     }
 
     JsonObject& field = root[0];
