@@ -45,7 +45,7 @@ DoorsResource.register(app, '/doors');
 
 
 var Permission = require('./models/permissions');
-var PermissionsRecource = app.resouce = restful.model(Permisson.model_name, Permission.schema)
+var PermissionsRecource = app.resouce = restful.model(Permission.model_name, Permission.schema)
     .methods(['get', 'put', 'delete', 'post']);
 PermissionsRecource.register(app, '/permissions');
 
@@ -90,6 +90,7 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
 
 app.listen(8080);
 module.exports = app;
