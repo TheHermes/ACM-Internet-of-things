@@ -71,7 +71,8 @@ String goldoon_get() {
     WiFiClient client;
 
     if(client.connect(serverAddress, port)) {
-        char *request = "GET /goldoon HTTP/1.1\n Host: 192.168.1.6\n Cache-Control: no-cache\n\n";
+        String request = String("GET /goldoon HTTP/1.1\n ") +
+            "Host: " + serverAddress + "\n Cache-Control: no-cache\n\n";
         client.print(request);
         char lastChar = 0;
         int contentLength = 0;
