@@ -4,8 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var GoldoonSchema = require('./models/goldoon');
 var restful = require('node-restful');
+
+var session = require('express-session');
+var passport = require('passport');
+// var cookieSession = require('cookie-session');
 
 
 var mongoose = restful.mongoose;
@@ -13,9 +16,9 @@ mongoose.connect('mongodb://localhost/acm-iot');
 
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 
 var doors = require('./routes/doors');
+
 var permissions = require('./routes/permissions');
 
 var app = express();
@@ -31,35 +34,43 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(session({ secret: 'testestst' }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', routes);
-app.use('/users', users);
 app.use('/doors-api', doors);
 app.use('/permissions-api',permissions);
 
 //models
 var Door = require('./models/doors');
-var DoorsResource = app.resource = restful.model(Door.model_name, Door.schema)
+var DoorsResource = restful.model(Door.model_name, Door.schema)
     .methods(['get', 'put', 'delete', 'post']);
 DoorsResource.register(app, '/doors');
 
 
 var Permission = require('./models/permissions');
-var PermissionsRecource = app.resouce = restful.model(Permission.model_name, Permission.schema)
+
+var PermissionsRecource = restful.model(Permission.model_name, Permission.schema)
     .methods(['get', 'put', 'delete', 'post']);
-PermissionsRecource.register(app, '/permissions');
+PermissionsResource.register(app, '/permissions');
 
+var Goldoon = require('./models/goldoon');
 
-var Resource = app.resource = restful.model('Goldoon', GoldoonSchema).methods(['get', 'post', 'put', 'delete']);
+var GoldoonResource = restful.model(Goldoon.model_name, Goldoon.schema).methods(['get', 'post', 'put', 'delete']);
+GoldoonResource.register(app, '/goldoons')
 
 //question
-var question = require('./models/question');
-var resource = restful.model(question.model_name, question.schema)
-    .methods(['get', 'put', 'post', 'delete']);
-resource.register(app, '/question');
 
+var Question = require('./models/question');
+var Questionresource = restful.model(Question.model_name, Question.schema)
+	.methods(['get', 'put', 'post', 'delete']);
+Questionresource.register(app, '/question');
+
+// app.use(passport.authenticate('remember-me'));
 var poll = require('./routes/poll');
 app.use('/questions', poll);
+var users = require('./routes/users');
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -93,5 +104,6 @@ app.use(function(err, req, res, next) {
 
 
 app.listen(8080);
+console.log("Started");
 
 module.exports = app;
