@@ -17,10 +17,16 @@ app.use(bodyParser.json());
 
 mongoose.connect('mongodb://localhost/goldoon');
 
-var goldoonResource = app.resource = restful.model('Goldoon', GoldoonSchema).
+var goldoon = app.resource = restful.model('Goldoon', GoldoonSchema).
     methods(['get', 'post', 'put', 'delete']);
 
-goldoonResource.register(app, '/goldoon');
+goldoon.register(app, '/goldoon');
+
+app.get('/goldoons', function(req, res) {
+    goldoon.find({}, function(err, goldoons) {
+        res.send(goldoons);
+    });
+});
 
 app.listen(3000);
 module.exports = app;
