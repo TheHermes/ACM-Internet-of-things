@@ -45,8 +45,16 @@ passport.use(new LocalStrategy(function(username, password, done) {
     });
 }));
 
+/* GET home page. */
+module.exports.isLoggedIn = function (req, res, next) {
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+        return next();
+    // if they aren't redirect them to the home page
+    res.redirect('/users/login');
+};
 
-module.exports = passport.authenticate('local', {
-    successRedirect: '/index',
+module.exports.authenticate = passport.authenticate('local', {
+    successRedirect: '/',
     failureRedirect: '/users/login'
 });
