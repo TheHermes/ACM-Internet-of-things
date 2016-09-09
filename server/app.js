@@ -4,22 +4,22 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var GoldoonSchema = require('./models/goldoon');
 var restful = require('node-restful');
 
+
 var mongoose = restful.mongoose;
-mongoose.connect('mongodb://localhost/doorDB');
+mongoose.connect('mongodb://localhost/acm-iot');
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var doors = require('./routes/doors');
-
-var restful = require('node-restful');
-var mongoose = restful.mongoose;
+var permissions = require('./routes/permission');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost/acmiot');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -35,34 +35,38 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/doors-api', doors);
+app.use('/permissions-api',permissions);
 
 //models
 var Door = require('./models/doors');
-var DoorsResource = app.resource = restful.model('doors', Door)
+var DoorsResource = app.resource = restful.model(Door.model_name, Door.schema)
     .methods(['get', 'put', 'delete', 'post']);
 DoorsResource.register(app, '/doors');
 
 
-var permissions = require('./models/permissions');
-var PermissionsRecource = app.resouce = restful.model('permissions', permissions)
+var Permission = require('./models/permissions');
+var PermissionsRecource = app.resouce = restful.model(Permisson.model_name, Permission.schema)
     .methods(['get', 'put', 'delete', 'post']);
 PermissionsRecource.register(app, '/permissions');
+
+
+var Resource = app.resource = restful.model('Goldoon', GoldoonSchema).methods(['get', 'post', 'put', 'delete']);
 
 //question
 var question = require('./models/question');
 var resource = restful.model('question', question)
-	.methods(['get', 'put', 'post', 'delete']);
+    .methods(['get', 'put', 'post', 'delete']);
 resource.register(app, '/question');
 
 var poll = require('./routes/poll');
-app.use('/questions', poll)
+app.use('/questions', poll);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
-
 // error handlers
 
 // development error handler
@@ -88,5 +92,4 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(8080);
-
 module.exports = app;
