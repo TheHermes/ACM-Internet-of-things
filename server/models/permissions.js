@@ -12,7 +12,7 @@ var permissionSchema = new Schema({
     isUnlimited : Boolean
 });
 var model_name = 'permissions';
-var _model = mongoose.model(model_name, permissionSchema);
+var model = mongoose.model(model_name, permissionSchema);
 
 module.exports = {
     schema: permissionSchema,

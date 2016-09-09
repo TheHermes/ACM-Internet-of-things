@@ -1,0 +1,69 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=Edge")
+        meta(name="viewport",content="width=device-width, initial-scale=1")
+        title  شاخه‌ی دانشجویی ACM دانشگاه تهران
+
+        link(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
+        link(rel='stylesheet', href='/stylesheets/css/font-awesome.min.css')
+        link(rel='stylesheet', href='/stylesheets/css/animate.css')
+        link(href='http://fonts.googleapis.com/css?family=Lobster',rel='stylesheet',type='text/css')
+        //Custom css
+        link(rel='stylesheet', href='/stylesheets/style.css')
+
+        //Template js
+        script(src="/javascripts/jquery-2.1.1.min.js")
+        script(src="/bootstrap/js/bootstrap.min.js")
+        script(src="/javascripts/jquery.appear.js")
+        script(src="/javascripts/jqBootstrapValidation.js")
+        script(src="/javascripts/modernizr.custom.js")
+        script(src="/javascripts/script.js")
+
+        body
+            section#logo-section.text-center
+                div.containe
+                    div.row
+                        div.col-md-12
+                            div(class=["logo","text-center"])
+                                h1 انجمن علمی مهندسی کامپیوتر دانشگاه تهران
+                                span سامانه‌ی مدیریت هوشمند
+
+            div(class=["mainbody-section", "text-center"])
+                div.container
+                    div.row
+                        div.col-md-3
+
+                            div(class=["menu-item", "color"])
+                                a(href="#portfolio-modal", data-toggle="modal")
+                                    i(class=["fa", "fa-area-chart"])
+                                        p نتایج نظرسنجی
+
+                            div(class=["menu-item", "light-red"])
+                                a(href="#about-modal", data-toggle="modal")
+                                    i(class=["fa", "fa-user"])
+                                        p درباره‌ی ما
+
+                        div.col-md-6
+                            div.col-md-8.col-md-offset-2
+                                div.row
+                                    form(action="/users/login", method="post")
+                                        div.form-group
+                                            input.form-control(type="text", placeholder="Username", name="username")
+                                        div.form-group
+                                            input.form-control(type="password", placeholder="Password", name="password")
+                                        div.form-group.text-center
+                                            button.btn.btn-warning(type="submit") Login
+
+                        div.col-md-3
+                            div.menu-item.color
+                                a(href="#qa", data-toggle="modal")
+                                    i.fa.fa-laptop
+                                        p  ورود مدیر
+                            div.menu-item.light-red
+                                a(href="#contact-modal" data-toggle="modal")
+                                    i.fa.fa-envelope-o
+                                        p  تماس با ما
+
+
