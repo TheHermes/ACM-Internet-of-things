@@ -10,5 +10,12 @@ var permissionSchema = new Schema({
     startDate : Date,
     endDate : Date,
     isUnlimited : Boolean
-})
-module.exports = permissionSchema;
+});
+var model_name = 'permissions';
+var _model = mongoose.model(model_name, permissionSchema);
+
+module.exports = {
+    schema: permissionSchema,
+    model: model,
+    model_name: model_name
+};

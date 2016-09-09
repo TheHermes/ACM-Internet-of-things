@@ -10,6 +10,11 @@ var questionSchema = mongoose.Schema({
     response: [Number],
 });
 
-// Question = new questionSchema('question', questionSchema);
+model_name = 'questions'
+model = new questionSchema('questions', questionSchema);
 
-module.exports = questionSchema;
+module.exports = {
+    schema: questionSchema,
+    model: model,
+    model_name: model_name
+};
