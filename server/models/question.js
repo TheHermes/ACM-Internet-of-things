@@ -11,7 +11,7 @@ var questionSchema = mongoose.Schema({
 });
 
 model_name = 'questions'
-model = new questionSchema('questions', questionSchema);
+model = mongoose.model('questions', questionSchema);
 
 module.exports = {
     schema: questionSchema,

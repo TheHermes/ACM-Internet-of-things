@@ -16,7 +16,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var doors = require('./routes/doors');
-var permissions = require('./routes/permission');
+var permissions = require('./routes/permissions');
 
 var app = express();
 
@@ -54,7 +54,7 @@ var Resource = app.resource = restful.model('Goldoon', GoldoonSchema).methods(['
 
 //question
 var question = require('./models/question');
-var resource = restful.model('question', question)
+var resource = restful.model(question.model_name, question.schema)
     .methods(['get', 'put', 'post', 'delete']);
 resource.register(app, '/question');
 
