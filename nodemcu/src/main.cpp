@@ -18,9 +18,10 @@ const char* goldoon_create();
 void initSerial();
 void initWiFi();
 String generateRequest(String body, String path);
+String generatePUTRequest(String body, String path);
 String getBody(String response);
 String goldoon_get();
-const char *id;
+String id;
 
 
 // Arduino initial entry point #1
@@ -29,7 +30,7 @@ void setup() {
     initWiFi();
 
     IPAddress ip = WiFi.localIP();
-    StaticJsonBuffer<1000> jsonBuffer;
+    StaticJsonBuffer<300> jsonBuffer;
     String json = goldoon_get();
     JsonArray& root = jsonBuffer.parseArray(json.c_str());
 
@@ -43,14 +44,15 @@ void setup() {
         if(strcmp(it->asObject()["ip"].as<char *>(), ip.toString().c_str()) == 0) {
             Serial.println("IP exists in database.");
             exists = true;
-            id = it->asObject()["_id"].as<char *>();
+            id = String(it->asObject()["_id"].as<char *>());
             Serial.println(id);
             break;
         }
     }
 
     if(!exists) {
-        goldoon_create();
+        id = String(goldoon_create());
+        Serial.println(id);
     }
 
 }
@@ -58,6 +60,7 @@ void setup() {
 
 // Arduino loop point
 void loop() {
+    reportHumidity(analogRead(A0));
     delay(5000);
 }
 
@@ -102,7 +105,8 @@ String goldoon_get() {
 }
 
 void reportHumidity(double amount) {
-    String request = generateRequest(String("humidity") + int(amount), String("/goldoon") + "/" + id);
+    String request = generatePUTRequest(String("humidity=") + int(amount), String("/goldoon") + "/" + String(id));
+    Serial.println(request);
     getBody(request);
 }
 
@@ -138,8 +142,16 @@ String getBody(String request) {
 }
 
 String generateRequest(String body, String path) {
-    String request = String("POST") + path + " HTTP/1.1\n" + "HOST: " + serverAddress +
-        "content-type: application/x-www-form-urlencoded\n" +
+    String request = String("POST ") + path + " HTTP/1.1\n" + "HOST: " + serverAddress +
+        "\ncontent-type: application/x-www-form-urlencoded\n" +
+        "content-length: "+ body.length() + "\n\n" + body +
+        "\n";
+
+    return request;
+}
+String generatePUTRequest(String body, String path) {
+    String request = String("PUT ") + path + " HTTP/1.1\n" + "HOST: " + serverAddress +
+        "\ncontent-type: application/x-www-form-urlencoded\n" +
         "content-length: "+ body.length() + "\n\n" + body +
         "\n";
 
