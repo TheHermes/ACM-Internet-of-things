@@ -84,7 +84,7 @@ void goldoon_create() {
     String request = String("POST /goldoon HTTP/1.1\n") +
         "Host:" + serverAddress + "\nCache-Control: no-cache\n" +
         "Content-Type: application/x-www-form-urlencoded\n" +
-        "ip=192.168.1.9";
+        "ip=192.168.1.9\n\n";
 
     getBody(request);
 }
