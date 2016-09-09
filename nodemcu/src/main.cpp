@@ -14,9 +14,10 @@ const IPAddress ipAddress;
 
 void reportHumidity(double amount);
 bool goldoon_exists();
-void goldoon_create();
+const char* goldoon_create();
 void initSerial();
 void initWiFi();
+String generateRequest(String body, String path);
 String getBody(String response);
 String goldoon_get();
 const char *id;
@@ -43,6 +44,7 @@ void setup() {
             Serial.println("IP exists in database.");
             exists = true;
             id = it->asObject()["_id"].as<char *>();
+            Serial.println(id);
             break;
         }
     }
@@ -77,13 +79,17 @@ void initWiFi() {
 
 }
 
-void goldoon_create() {
-    String request = String("POST /goldoon HTTP/1.1\n") + "HOST: " + serverAddress +
-        "content-type: application/x-www-form-urlencoded\n" +
-        "content-length: 14\n\n" +
-        "ip=192.168.1.9\n";
+const char* goldoon_create() {
+    String request = generateRequest("ip=192.168.1.9", "/goldoon");
+    Serial.println(request);
+    StaticJsonBuffer<1000> jsonBuffer;
 
-    getBody(request);
+    String json =  getBody(request);
+    JsonObject& root = jsonBuffer.parseObject(json.c_str());
+    if(!root.success()) {
+        Serial.println("JSON parsing failed");
+    }
+    return root["id"].as<char *>();
 }
 
 bool goldoon_exists() {
@@ -93,6 +99,11 @@ String goldoon_get() {
     String request = String("GET /goldoon HTTP/1.1\n ") +
         "Host: " + serverAddress + "\n Cache-Control: no-cache\n\n";
     return getBody(request);
+}
+
+void reportHumidity(double amount) {
+    String request = generateRequest(String("humidity") + int(amount), String("/goldoon") + "/" + id);
+    getBody(request);
 }
 
 String getBody(String request) {
@@ -124,4 +135,13 @@ String getBody(String request) {
         client.stop();
         return json;
     }
+}
+
+String generateRequest(String body, String path) {
+    String request = String("POST") + path + " HTTP/1.1\n" + "HOST: " + serverAddress +
+        "content-type: application/x-www-form-urlencoded\n" +
+        "content-length: "+ body.length() + "\n\n" + body +
+        "\n";
+
+    return request;
 }
