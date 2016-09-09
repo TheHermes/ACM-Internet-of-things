@@ -50,7 +50,7 @@ DoorsResource.register(app, '/doors');
 
 var Permission = require('./models/permissions');
 
-var PermissionsRecource = restful.model(Permission.model_name, Permission.schema)
+var PermissionsResource = restful.model(Permission.model_name, Permission.schema)
     .methods(['get', 'put', 'delete', 'post']);
 PermissionsResource.register(app, '/permissions');
 
