@@ -13,7 +13,6 @@ app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json());
 app.use(bodyParser.json({type:'application/vnd.api+json'}));
 
-app.set('view engine', 'jade');
 app.use(bodyParser.json());
 
 mongoose.connect('mongodb://localhost/goldoon');
