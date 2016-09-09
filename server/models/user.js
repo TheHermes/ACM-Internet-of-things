@@ -10,7 +10,6 @@ var UserSchema = mongoose.Schema({
 	},
 	email: {
 		type: String,
-		required: true,
 		unique: true
 	},
 	password: {
@@ -33,6 +32,7 @@ module.exports.getUserByUsername = function(username, callback) {
 }
 
 module.exports.getUserById = function(id, callback) {
+
 	User.findById(id, callback);
 }
 
@@ -42,11 +42,12 @@ module.exports.comparePassword = function(candidPassword, hash, callback) {
 		callback(null, isMatch)
 	})
 }
+var createUser = function(newUser, callback) {
+    bcrypt.hash(newUser.password, 10, function(err, hash) {
+        if (err) throw err;
+        newUser.password = hash;
+        newUser.save(callback);
+    });
+};
 
-module.exports.createUser = function(newUser, callback) {
-	bcrypt.hash(newUser.password, 10, function(err, hash) {
-		if (err) throw err;
-		newUser.password = hash;
-		newUser.save(callback);
-	});
-}
+module.exports.createUser = createUser
