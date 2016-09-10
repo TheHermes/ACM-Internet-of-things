@@ -1,5 +1,5 @@
-var app  = angular.module('IOT',['ngClick','ngResource']);
 
+var app  = angular.module('IOT',['ngRoute','ngResource']);
 
 
 app.factory('APIRest', ['$resource', function($resource){
@@ -33,12 +33,14 @@ app.controller('mainController',[ '$scope', 'APIRest', function ($scope,APIRest)
 
 
 app.config(['$routeProvider',function($routeProvider){
-	routeProvider.
-	when('/devices',{
-		template: './index.jade'
+	// $urlRouterProvider.otherwise('/main');
+	$routeProvider.
+	when('/main',{
+		templateUrl: './main.jade',
+		controller: 'mainController'
 	}).
-	when('/home',{
-		template:''
+	when('/users/login',{
+		templateUrl:'./login.jade'
 	}).
-	otherwise('/home');
+	otherwise('/main');
 }]);
