@@ -35,12 +35,12 @@ app.controller('mainController',[ '$scope', 'APIRest', function ($scope,APIRest)
 app.config(['$routeProvider',function($routeProvider){
 	// $urlRouterProvider.otherwise('/main');
 	$routeProvider.
-	when('/main',{
-		templateUrl: './main.jade',
-		controller: 'mainController'
+	when('/',{
+		templateUrl: '/index',
+		controller: '/public/javascripts/mainController.js'
 	}).
 	when('/users/login',{
-		templateUrl:'./login.jade'
+		templateUrl:'/users/login'
 	}).
 	otherwise('/main');
 }]);
