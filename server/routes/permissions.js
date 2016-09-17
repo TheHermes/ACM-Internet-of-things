@@ -18,7 +18,6 @@ router.get('/hasPermission', function(req,res){
                 res.send('unauthorized');
             }
         }
-        //res.json({'status': 'ok'});
     })
 });
 
