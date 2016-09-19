@@ -7,6 +7,7 @@ var Permission = function () {
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
     var permissionSchema = new Schema({
+        username : String,
         userId : Number,
         doorId : Number,
         permissionId: Number,

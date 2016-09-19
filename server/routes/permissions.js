@@ -2,16 +2,18 @@ var express = require('express');
 var request = require('request');
 var mongoose = require('mongoose');
 var router = express.Router();
-var Permission = require('../models/doors');
+var Permission = require('../models/permissions');
 var Permissions = Permission.model;
-router.get('/hasPermission', function(req,res){
-    Permissions.findOne({userId: req.params.userId, doorId: req.params.doorId},function(err,q){
+
+router.post('/hasPermission', function(req,res){
+    Permissions.find({username: req.body.username},function(err,q){
+        console.log(q);
         if(err){
             console.log(err);
             res.end();
         }
         else {
-            if(q){
+            if(q.length > 0){
                 res.send('authorized');
             }
             else{
@@ -20,5 +22,6 @@ router.get('/hasPermission', function(req,res){
         }
     })
 });
+
 
 module.exports = router;

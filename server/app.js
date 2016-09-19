@@ -38,20 +38,20 @@ app.use(session({ secret: 'testestst' }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', routes);
-app.use('/doors-api', doors);
-app.use('/permissions-api',permissions);
 
 //models
 var Door = require('./models/doors');
 var DoorsResource = restful.model(Door.model_name, Door.schema)
     .methods(['get', 'put', 'delete', 'post']);
 DoorsResource.register(app, '/doors');
-
+app.use('/permissions', permissions);
+app.use('/doors', doors);
 
 var Permission = require('./models/permissions');
 var PermissionsResource = restful.model(Permission.model_name, Permission.schema)
     .methods(['get', 'put', 'delete', 'post']);
 PermissionsResource.register(app, '/permissions');
+
 
 var Goldoon = require('./models/goldoon');
 
