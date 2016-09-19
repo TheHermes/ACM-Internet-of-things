@@ -16,7 +16,7 @@ function Authenticated(req,res,next) {
     res.json({'status': 'You are not logged in'})
 }
 
-router.post('/open', function(req,res){ //is logged in
+router.post('/open', Authenticated, function(req,res){ //is logged in
     Doors.find({id: req.body.doorId},function(err,d){
         if(err){
             console.log(err);
