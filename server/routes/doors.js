@@ -16,7 +16,7 @@ function Authenticated(req,res,next) {
     res.json({'status': 'You are not logged in'})
 }
 
-router.post('/open', Authenticated, function(req,res){ //is logged in
+router.post('/open',  function(req,res){ //is logged in
     Doors.find({id: req.body.doorId},function(err,d){
         if(err){
             console.log(err);
@@ -32,8 +32,8 @@ router.post('/open', Authenticated, function(req,res){ //is logged in
                 else {
                     if (p != null) { //not null
                         var request = require('request');
-                        var string = 'http://localhost:8080/'+req.body.doorId; //can not identify d.ip,why?
-                        request('http://localhost/', function (error, response) {
+                        var string = req.body.doorId //can not identify d.ip,why?
+                        request(string, function (error, response) {
                             if (!error && response.statusCode == 200) {
                                console.log("Welcome in");
                            }
