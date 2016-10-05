@@ -10,7 +10,9 @@ var questionSchema = mongoose.Schema({
     response: [Number],
 });
 
+
 model_name = 'questions';
+
 model = mongoose.model('questions', questionSchema);
 
 module.exports = {
