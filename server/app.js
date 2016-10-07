@@ -22,11 +22,16 @@ var doors = require('./routes/doors');
 var permissions = require('./routes/permissions');
 
 var app = express();
-
+app.set('base', '/room');
+app.use('/', function(req, res, next){
+  console.log(req.url)
+  console.log(req.url.toString())
+  console.log('url: ' + req.url)
+  next();
+});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -107,7 +112,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.listen(8080);
+app.listen(3024);
 console.log("Started");
 
 module.exports = app;
