@@ -1,10 +1,10 @@
-var app  = angular.module('IOT',['ngClick','ngResource']);
 
+var app  = angular.module('IOT',['ngRoute','ngResource']);
 
 
 app.factory('APIRest', ['$resource', function($resource){
-	var factory;
-	factory.postData = $resource('/:deviceKind/switch/:deviceId', {}, {
+	var factory = [];
+	factory.postData = $resource('/:deviceKind/switch/:deviceId', {deviceKind: '@deviceKind', deviceId: '@deviceId'}, {
 		'switch':{
 			method:'POST',
 		}
@@ -15,6 +15,7 @@ app.factory('APIRest', ['$resource', function($resource){
 			isArray:true
 		}
 	});
+    factory.openDoor = $resource()
 	return factory;
 }]);
 
@@ -22,9 +23,10 @@ app.controller('mainController',[ '$scope', 'APIRest', function ($scope,APIRest)
 	// body...
 	$scope.deviceKind= undefined;
 	$scope.deviceId = undefined;
-	$scope.onOff = function(){
-		APIRest.postData.switch({deviceKind: $scope.deviceKind, deviceId: $scope.deviceId});
-	}
+	$scope.onOff = function(deviceKind, deviceId){
+		APIRest.postData.switch({deviceKind: deviceKind, deviceId: deviceId});
+	};
+
 	$scope.devices = {};
 	$scope.getDevices = function(){
 		$scope.devices = APIRest.getData.devices();
@@ -33,12 +35,14 @@ app.controller('mainController',[ '$scope', 'APIRest', function ($scope,APIRest)
 
 
 app.config(['$routeProvider',function($routeProvider){
-	routeProvider.
-	when('/devices',{
-		template: './index.jade'
+	// $urlRouterProvider.otherwise('/main');
+	$routeProvider.
+	when('/',{
+		templateUrl: '/index',
+		controller: 'mainController'
 	}).
-	when('/home',{
-		template:''
+	when('/users/login',{
+		templateUrl:'/users/login'
 	}).
-	otherwise('/home');
+	otherwise('/main');
 }]);

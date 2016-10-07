@@ -1,0 +1,110 @@
+
+block content
+    section#logo-section.text-center
+        div.container()
+            div.row
+                div.col-md-12
+                    div(class=["logo","text-center"])
+                        h1  انجمن علمی مهندسی کامپیوتر دانشگاه تهران
+                        span سامانه‌ی مدیریت هوشمند
+
+    div(class=["mainbody-section", "text-center"] ng-controller='mainController')
+        div.container
+            div.row
+                div.col-md-3
+
+                    div(class=["menu-item", "color"])
+                        a(href="#poll-modal", data-toggle="modal")
+                            i(class=["fa", "fa-area-chart"])
+                                p نتایج نظرسنجی
+
+                    div(class=["menu-item", "light-red"])
+                        a(href="#about-modal", data-toggle="modal")
+                            i(class=["fa", "fa-user"])
+                                p درباره‌ی ما
+
+                div.col-md-6
+                    div.menu-item.green
+                        a(ng-click="onOff('doors', '')" data-toggle="modal")
+                            i.fa.fa-key
+                                p  در ورودی
+                    div.menu-item.green
+                        a(href="#about-modal" data-toggle="modal")
+                            i.fa.fa-lightbulb-o
+                                p چراغ
+
+                div.col-md-3
+                    div.menu-item.color
+                        a(href="#qa", data-toggle="modal")
+                            i.fa.fa-laptop
+                                p  ورود مدیر
+                    div.menu-item.light-red
+                        a(href="#contact-modal" data-toggle="modal")
+                            i.fa.fa-envelope-o
+                                p  تماس با ما
+
+
+
+    #poll-modal.section-modal.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+        div.modal-content
+            div.close-modal(data-dismiss='modal')
+                .lr
+                    .rl
+            .container
+                .row
+                    .section-title.text-center
+                        h3 نظرسنجی
+                        p برای شرکت در نظرسنجی‌ها می‌توانید به دفتر شاخه مراجعه کنید
+
+                .row
+                    .col-md-6.col-sm-6
+                        .skill-shortcode
+                            // Progress Bar
+                            .skill
+                                p گزینه‌ی ۱
+                                .progress
+                                    .progress-bar(role='progressbar', data-percentage='40')
+                                        span.progress-bar-span 40%
+                                        span.sr-only 40% Complete
+                            // Progress Bar
+                            .skill
+                                p گزینه‌ی ۲
+                                .progress
+                                    .progress-bar(role='progressbar', data-percentage='15')
+                                        span.progress-bar-span 15%
+                                        span.sr-only 15% Complete
+                            // Progress Bar
+                            .skill
+                                p گزینه‌ی ۳
+                                .progress
+                                    .progress-bar(role='progressbar', data-percentage='35')
+                                        span.progress-bar-span 35%
+                                        span.sr-only 35% Complete
+                            // Progress Bar
+
+                    .col-md-6
+                        .custom-tab
+                            ul.nav.nav-tabs.nav-justified(role='tablist')
+                                li.active
+                                    a(href='#tab-1', role='tab', data-toggle='tab') نظرسنجی فلان
+                                li
+                                    a(href='#tab-2', role='tab', data-toggle='tab') نظرسنجی بهمان
+                                li
+                                    a(href='#tab-3', role='tab', data-toggle='tab') آخرین نظرسنجی
+                            .tab-content
+                                #tab-1.tab-pane.active
+                                    p
+                                        | این نظرسنجی در تاریخ .... برگزار و ....
+                                    p
+                                        | سؤال نظرسنجی
+                                #tab-2.tab-pane
+                                    p
+                                        | این نظرسنجی در تاریخ .... برگزار و ....
+                                    p
+                                        | سؤال نظرسنجی
+                                #tab-3.tab-pane
+                                    p
+                                        | این نظرسنجی در تاریخ .... برگزار و ....
+                                    p
+                                        | سؤال نظرسنجی
+    // End About Us Section
