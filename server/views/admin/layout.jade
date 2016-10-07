@@ -1,28 +1,29 @@
 doctype html
 html(ng-app="Admin")
     head
+        -var base = '/room/'
         meta(charset="utf-8")
         meta(http=equiv = "X-UA-Compatible", content="IE=Edge")
         meta(name="viewport",content="width=device-width, initial-scale=1")
         title مدیریت سامانه‌ی دفتر شاخه ACM
 
         //Bower Components
-        link(href="/bower_components/bootstrap/dist/css/bootstrap.min.css",rel="stylesheet")
-        link(href="/bower_components/metisMenu/dist/metisMenu.min.css",rel="stylesheet")
-        link(href="/bower_components/ng-table/dist/ng-table.min.css")
+        link(href= base + "/bower_components/bootstrap/dist/css/bootstrap.min.css",rel="stylesheet")
+        link(href= base + "/bower_components/metisMenu/dist/metisMenu.min.css",rel="stylesheet")
+        link(href= base + "/bower_components/ng-table/dist/ng-table.min.css")
 
-        link(href="/bower_components/font-awesome/css/font-awesome.min.css", rel="stylesheet")
-        script(src="/bower_components/jquery/dist/jquery.min.js")
-        script(src="/bower_components/bootstrap/dist/js/bootstrap.min.js")
-        script(src="/admin/javascripts/sb-admin-2.js")
+        link(href= base + "/bower_components/font-awesome/css/font-awesome.min.css", rel="stylesheet")
+        script(src= base + "/bower_components/jquery/dist/jquery.min.js")
+        script(src= base + "/bower_components/bootstrap/dist/js/bootstrap.min.js")
+        script(src= base + "/admin/javascripts/sb-admin-2.js")
 
         //Admin Panel CSS
-        link(href="/admin/stylesheets/timeline.css", rel="stylesheet")
-        link(href="/admin/stylesheets/sb-admin-2.css", rel="stylesheet")
+        link(href= base + "/admin/stylesheets/timeline.css", rel="stylesheet")
+        link(href= base + "/admin/stylesheets/sb-admin-2.css", rel="stylesheet")
 
 
         //Custom css
-        link(href="/admin/stylesheets/style.css", rel="stylesheet")
+        link(href= base + "/admin/stylesheets/style.css", rel="stylesheet")
 
     body
         #wrapper
@@ -56,10 +57,10 @@ html(ng-app="Admin")
 
             #page-wrapper
                 div(ng-view)
-    script(src="/bower_components/angular/angular.min.js")
-    script(src="/bower_components/angular-resource/angular-resource.min.js")
-    script(src="/bower_components/angular-route/angular-route.min.js")
-    script(src="/admin/controller/admin.js")
-    script(src="/admin/controller/controllers/UserListController.js")
-    script(src="/admin/controller/controllers/UserFormController.js")
-    script(src="/bower_components/ng-table/dist/ng-table.min.js")
+    script(src= base + "/bower_components/angular/angular.min.js")
+    script(src= base + "/bower_components/angular-resource/angular-resource.min.js")
+    script(src= base + "/bower_components/angular-route/angular-route.min.js")
+    script(src= base + "/admin/controller/admin.js")
+    script(src= base + "/admin/controller/controllers/UserListController.js")
+    script(src= base + "/admin/controller/controllers/UserFormController.js")
+    script(src= base + "/bower_components/ng-table/dist/ng-table.min.js")
