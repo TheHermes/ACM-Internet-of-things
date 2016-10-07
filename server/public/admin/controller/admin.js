@@ -9,11 +9,11 @@ angular.module('Admin', ['ngResource', 'ngRoute', 'ngTable'])
                 controller: 'DashboardController'
             })
             .when('/users', {
-                templateUrl: '/admin/user_list',
+                templateUrl: '/room/admin/user_list',
                 controller: 'UserListController'
             })
             .when('/user', {
-                templateUrl: '/admin/user_form',
+                templateUrl: '/room/admin/user_form',
                 controller: 'UserFormController'
             })
     });
