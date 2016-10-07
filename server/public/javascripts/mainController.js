@@ -3,8 +3,8 @@ var app  = angular.module('IOT',['ngRoute','ngResource']);
 
 
 app.factory('APIRest', ['$resource', function($resource){
-	var factory;
-	factory.postData = $resource('/:deviceKind/switch/:deviceId', {}, {
+	var factory = [];
+	factory.postData = $resource('/:deviceKind/switch/:deviceId', {deviceKind: '@deviceKind', deviceId: '@deviceId'}, {
 		'switch':{
 			method:'POST',
 		}
@@ -15,6 +15,7 @@ app.factory('APIRest', ['$resource', function($resource){
 			isArray:true
 		}
 	});
+    factory.openDoor = $resource()
 	return factory;
 }]);
 
@@ -22,9 +23,10 @@ app.controller('mainController',[ '$scope', 'APIRest', function ($scope,APIRest)
 	// body...
 	$scope.deviceKind= undefined;
 	$scope.deviceId = undefined;
-	$scope.onOff = function(){
-		APIRest.postData.switch({deviceKind: $scope.deviceKind, deviceId: $scope.deviceId});
-	}
+	$scope.onOff = function(deviceKind, deviceId){
+		APIRest.postData.switch({deviceKind: deviceKind, deviceId: deviceId});
+	};
+
 	$scope.devices = {};
 	$scope.getDevices = function(){
 		$scope.devices = APIRest.getData.devices();
@@ -37,7 +39,7 @@ app.config(['$routeProvider',function($routeProvider){
 	$routeProvider.
 	when('/',{
 		templateUrl: '/index',
-		controller: '/public/javascripts/mainController.js'
+		controller: 'mainController'
 	}).
 	when('/users/login',{
 		templateUrl:'/users/login'

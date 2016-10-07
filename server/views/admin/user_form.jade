@@ -1,0 +1,34 @@
+div.row
+    h1.panel-heading کاربر جدید
+div.row(ng-controller="UserFormController")
+    div.col-lg-12
+        div.panel.panel-default
+            div.panel-heading کاربر جدید
+                p(ng-show="connectionError" ng-class="has-error") ارتباط با سرور برقرار نشد دوباره تلاش کنید
+                p(ng-show="savedSuccessfully" class="success") کاربر با نام کاربری «{{last_username}}» با موفقیت ذخیره شد.
+            div.panel-body
+                div.row(ng-form name="user_form")
+                    div.col-lg-12
+                        div.row.form-group
+                            div.col-lg-6(ng-class="{'has-error': user_form.usernmame.$invalid && (!user_form.username.$pristine || triedToSubmit)}")
+                                label نام کاربری
+                                input.form-control(placeholder="نام کاربری را وارد کنید", ng-model="user.username", required, name="username")
+                                p(ng-show = "user_form.username.$invalid && (!user_form.username.$pristine || triedToSubmit)" class="has-error") وارد کردن نام کاربری الزامی است.
+                            div.col-lg-6(ng-class="{'has-error': doc_form.type.$invalid && (!doc_form.type.$pristine || triedToSubmit)}")
+                                label ایمیل
+                                input.form-control(placeholder="ایمیل را وارد کنید", ng-model="user.email", required, name="type")
+                                p(ng-show = "user_form.email.$invalid && (!user_form.email.$pristine || triedToSubmit)" class="has-error") وارد کردن ایمیل الزامی است.
+                        div.row.form-group
+                            div.col-lg-6(ng-class="{'has-error': user_form.password.$invalid && (!user_form.password.$pristine || triedToSubmit)}")
+                                label کلمه‌ی عبور
+                                input.form-control(placeholder="کلمه‌ی عبور را وارد کنید", ng-model="user.password" type="password")
+                                p(ng-show = "user_form.password.$invalid && (!user_form.password.$pristine || triedToSubmit)" class="has-error") وارد کردن کلمه‌ی عبور الزامی است.
+                            div.col-lg-6
+                                label مدیر سامانه
+                                input.form-control(ng-model="user.isAdmin", required, type="checkbox", name="base_price")
+
+                        div.row.form-group
+                            div.col-lg-12(style="text-align: center")
+                                button.btn.btn-default(ng-click="saveData()") ثبت و بعدی
+                                button.btn.btn-danger(ng-click="cleanForm()") پاک کردن فرم
+                                button.btn.btn-success(ng-click="finalize()") ثبت و نهایی

@@ -1,0 +1,11 @@
+div.row
+    div.h1.panel-heading تمام کاربران ثبت‌شده
+div.row(ng-controller="UserListController")
+    div.col-lg-12
+        div.panel.panel-default
+            div.panel-body
+                table.table.table-bordered(ng-table="users" )
+                    tr(ng-repeat="row in $data track by row.username")
+                        td(title="'نام کاربری'", filter="{username: 'text'}", sortable="'username'") {{row.username}}
+                        td(title="'ایمیل'", filter="{email: 'text'}", sortable="'email'") {{row.email}}
+                        td(title="'مدیر'", sortable="'isAdmin'") {{row.isAdmin}}
