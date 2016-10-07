@@ -1,6 +1,6 @@
 angular.module('Admin', ['ngResource', 'ngRoute', 'ngTable'])
     .factory('Users', function($resource){
-        return $resource('/users/:id');
+        return $resource('/admin/users/:id');
     })
     .config(function($routeProvider){
         $routeProvider
